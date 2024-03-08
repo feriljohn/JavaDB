@@ -15,26 +15,6 @@ import EntityConstructors.BookCrud;
 
 public class Book {
 
-    public List<BookCrud> getAllBooks() throws SQLException {
-        List<BookCrud> books = new ArrayList<>();
-        try (Connection con = DbManager.getConnection();
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM book")) {
-
-            while (rs.next()) {
-                int bookId = rs.getInt("book_id");
-                String bookName = rs.getString("book_name");
-                Date dop = rs.getDate("dop");
-                int authId = rs.getInt("auth_id");
-                int genId = rs.getInt("gen_id");
-
-                BookCrud book = new BookCrud(bookId, bookName, dop, authId, genId);
-                books.add(book);
-            }
-        }
-        return books;
-    }
-
     public List<BookCrud> getBookById(int bookId) throws SQLException {
         List<BookCrud> books = new ArrayList<>();
         try (Connection con = DbManager.getConnection();
@@ -54,6 +34,26 @@ public class Book {
                     BookCrud book = new BookCrud(retrievedBookId, bookName, dop, authId, genId, damage, repStatus);
                     books.add(book);
                 }
+            }
+        }
+        return books;
+    }
+
+    public List<BookCrud> getAllBooks() throws SQLException {
+        List<BookCrud> books = new ArrayList<>();
+        try (Connection con = DbManager.getConnection();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM book")) {
+
+            while (rs.next()) {
+                int bookId = rs.getInt("book_id");
+                String bookName = rs.getString("book_name");
+                Date dop = rs.getDate("dop");
+                int authId = rs.getInt("auth_id");
+                int genId = rs.getInt("gen_id");
+
+                BookCrud book = new BookCrud(bookId, bookName, dop, authId, genId);
+                books.add(book);
             }
         }
         return books;
@@ -277,7 +277,7 @@ public class Book {
                 stmt.setInt(2, bookId);
                 stmt.executeUpdate();
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
