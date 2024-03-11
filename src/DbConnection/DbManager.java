@@ -3,15 +3,20 @@ package DbConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class DbManager {
-    private static final String URL = "jdbc:mysql://localhost:3306/libraryy";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final ResourceBundle rd
+            = ResourceBundle.getBundle("resourse.system",new Locale("en_US"));
+            private static final String Loaddriver=rd.getString("driver");
+    private static final String URL = rd.getString("url");
+    private static final String USER =rd.getString( "userName");
+    private static final String PASSWORD = rd.getString("password");
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(Loaddriver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("Error: MySQL JDBC Driver not found!");
